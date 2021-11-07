@@ -1,22 +1,28 @@
-// string, number, boolean, array, undefined, null, any
+// string, number, boolean, array, null, undefined, any
 
-let firstName: string | null;
-firstName = 'Dan';
+let firstName: string = 'Albeiro'; //type inference
+
+let lastName: string | undefined | null;
+
+lastName = undefined;
 
 let age: number;
-age = 45;
 
-let hasPurchased = true;
+age = 32;
 
-let productNames: string[] = [];
-productNames.push('Basketball');
+let hasPursched: boolean = true;
+
+let sports: string[] = ['basketball', 'soccer', 'golf'];
+
+let productList: string[] = [];
+productList.push('pencil');
 
 let petCount: number[] = [];
-petCount.push(5);
+petCount.push(6);
 
-console.log(firstName, age, hasPurchased, productNames, petCount);
+console.log(lastName, age, hasPursched, productList, petCount);
 
-let productType = 'sports'; // homeGoods, grocery ("magic string")
+let productType = 'sports'; // homeGoods, grocery
 if (productType === 'sports') {
   console.log('Found sports product type.');
 }
@@ -31,3 +37,15 @@ let pt = ProductType.Sports;
 if (pt === ProductType.Sports) {
   console.log('Found sports product type.');
 }
+
+
+// When enums use const takes number position
+const enum ProductTypes {
+  Sports,
+  HomeGoods,
+  Groceries
+}
+
+let pts= ProductType.Sports      // 0
+let ptg = ProductTypes.Groceries // 2
+
