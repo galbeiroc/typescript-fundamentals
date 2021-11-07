@@ -138,13 +138,13 @@ An interface defines the "shape" of data.
 |-------------------------------------------------|-----------------------------------------------|
 | Interface definitions can be used to respresent | Type alias can be used to represent primitive |
 | the shape of an object-like data sctructure     | types and object-like data structure          |
-| ```typescript                                   | ```typescript                                 |
+|                                                 |                                               |
 | interface Product {                             | type Product | string {                       |
-|   id: number;                                   |   id: number;                                 |
-|   name: string;                                 |   name: string;                               |
-|   icon: string;                                 |   icon: string;                               |
+|     id: number;                                 |     id: number;                               |
+|     name: string;                               |     name: string;                             |
+|     icon: string;                               |     icon: string;                             |
 | }                                               | }                                             |
-| ```                                             | ```                                           |
+|                                                 |                                               |
 |-------------------------------------------------|-----------------------------------------------|
 
 ### Extending interfaces
@@ -211,3 +211,74 @@ Clearer types and reusable code
 1. Classes
 1. Contraints
 
+### Generic overview
+
+```typescript
+function whatIsIt_typed<T>(arg: T): T {
+  return arg;
+}
+
+let n = whatIsIt_typed<number>(25);
+let s = whatIsIt_typed<string>('typed');
+let b = whatIsIt_typed<boolean>(true);
+```
+
+### Generic on function
+
+```typescript
+interface Customer {
+  id: number;
+  name: string;
+}
+
+async function getData() {
+  const customer = await getList<Customer>(customersURL);
+}
+await getData();
+```
+
+### Generic on interface
+
+```typescript
+interface Model<T> {
+  items: T[] | undefined;
+  getItems: () => Promise<T[]>;
+  getItemById: (id: number) => T | undefined;
+}
+
+class FoodModel implements Model<FoodProduct> {
+  public items: FoodProduct[] | undefined;
+
+  async getItems(): Promise<FoodProduct[]> {
+    this.items = await getList<FoodProduct>(productsURL);
+    return this.items;
+  }
+
+  getItemById(id: number): FoodProduct | undefined {
+    return this.items ? this.items.find((item) => item.id === id) : undefined;
+  }
+}
+
+const foodModel = new FoodModel();
+await foodModel.getItems();
+console.table(foodModel.items);
+```
+
+### Generic on class
+
+```typescript
+class GenericModel<T> {
+  public items: T[] | undefined;
+  constructor(public url: string) {}
+
+  async getItems(): Promise<T[]> {
+    this.items = await getList<T>(this.url);
+    return this.items;
+  }
+}
+
+const genericFoodModel = new GenericModel<FoodProduct>(productsURL);
+const genericCustomerModel = new GenericModel<Customer>(customersURL);
+await genericFoodModel.getItems();
+await genericCustomerModel.getItems();
+```
