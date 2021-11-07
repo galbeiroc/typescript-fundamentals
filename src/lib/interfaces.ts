@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   icon: string;
   description?: string;
-  validate(): boolean;
+  validate: () => boolean;
 }
 
 // Examples of using a type alias
